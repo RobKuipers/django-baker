@@ -1,6 +1,6 @@
 from django.core.validators import URLValidator
 from django.core.exceptions import FieldDoesNotExist
-from django.utils.encoding import smart_text
+#from django.utils.encoding import smart_text
 from django.utils.safestring import mark_safe
 
 from functools import partial
