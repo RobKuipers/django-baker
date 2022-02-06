@@ -97,7 +97,7 @@ class ExtendedModelAdminMixin(object):
             if not target:
                 return "None"
             return mark_safe(u'<a href="../../%s/%s/%d">%s</a>' % (
-                target._meta.app_label, target._meta.model_name, 1, smart_str(target))) #  target.id replaced by a hard-coded 1 , find the problem!
+                target._meta.app_label, target._meta.model_name, target.pk, smart_str(target)))
 
         if name[:9] == 'url_link_':
             method = partial(url_link, field=name[9:])
@@ -163,8 +163,10 @@ class ExtendedModelAdminMixin(object):
             combined_list_filter = ([field.name for field in self.model._meta.fields if
                                      (field.get_internal_type() in self.filter_by_fields) or
                                      (number_field_choices(field) > 0) or
-                                     (field.get_internal_type() == "ForeignKey" and
-                                      field.rel.to.objects.count() <= self.max_related_objects)] +
+                                     (field.get_internal_type() == "ForeignKey" 
+                                      # and
+                                      #field.rel.to.objects.count() <= self.max_related_objects #
+                                     )] +
                                     self.extra_list_filter
                                     )
             list_filter = remove_dupes(combined_list_filter)
